@@ -14,12 +14,6 @@ class BoneWindow: NSWindow {
                 NotificationCenter.default.post(name: .zoomWindow, object: nil)
                 return
             }
-
-            if let textView = VimTextViewSubclass.activeInstance {
-                // Forward key events directly to the text view, bypassing NSHostingView
-                textView.keyDown(with: event)
-                return
-            }
         }
         super.sendEvent(event)
     }
@@ -96,14 +90,14 @@ final class WindowManager: NSObject, NSWindowDelegate {
             window.setFrame(frameBeforeZoom, display: true, animate: true)
             isCustomZoomed = false
         } else {
-            // Store current frame and zoom to 80% of screen
+            // Store current frame and zoom to 100% of screen
             frameBeforeZoom = window.frame
             if let screen = window.screen {
                 let screenFrame = screen.visibleFrame
-                let newWidth = screenFrame.width * 0.8
-                let newHeight = screenFrame.height * 0.8
-                let newX = screenFrame.midX - newWidth / 2
-                let newY = screenFrame.midY - newHeight / 2
+                let newWidth = screenFrame.width
+                let newHeight = screenFrame.height
+                let newX = screenFrame.minX
+                let newY = screenFrame.minY
                 let zoomedFrame = NSRect(x: newX, y: newY, width: newWidth, height: newHeight)
                 window.setFrame(zoomedFrame, display: true, animate: true)
                 isCustomZoomed = true
