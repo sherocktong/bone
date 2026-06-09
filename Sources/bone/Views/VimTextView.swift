@@ -21,6 +21,7 @@ struct PlainTextView: NSViewRepresentable {
         textView.backgroundColor = NSColor.textBackgroundColor
         textView.insertionPointColor = NSColor.labelColor
         textView.textColor = NSColor.labelColor
+        textView.usesFindBar = true
 
         textView.string = initialText
 
@@ -29,7 +30,9 @@ struct PlainTextView: NSViewRepresentable {
 
     func updateNSView(_ nsView: NSScrollView, context: Context) {
         guard let textView = nsView.documentView as? PlainTextViewSubclass else { return }
-        if let window = textView.window, window.isKeyWindow {
+        if let window = textView.window,
+           window.isKeyWindow,
+           window.firstResponder === window {
             window.makeFirstResponder(textView)
         }
     }

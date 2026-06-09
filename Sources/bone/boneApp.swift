@@ -51,6 +51,31 @@ class BoneApp: NSApplication, NSApplicationDelegate {
         editMenu.addItem(withTitle: "Copy", action: #selector(NSText.copy(_:)), keyEquivalent: "c")
         editMenu.addItem(withTitle: "Paste", action: #selector(NSText.paste(_:)), keyEquivalent: "v")
         editMenu.addItem(withTitle: "Select All", action: #selector(NSText.selectAll(_:)), keyEquivalent: "a")
+        editMenu.addItem(NSMenuItem.separator())
+
+        // Find submenu
+        let findMenu = NSMenu(title: "Find")
+        let findItem = NSMenuItem(title: "Find...", action: #selector(NSResponder.performTextFinderAction(_:)), keyEquivalent: "f")
+        findItem.tag = NSTextFinder.Action.showFindInterface.rawValue
+        findMenu.addItem(findItem)
+
+        let findNextItem = NSMenuItem(title: "Find Next", action: #selector(NSResponder.performTextFinderAction(_:)), keyEquivalent: "g")
+        findNextItem.tag = NSTextFinder.Action.nextMatch.rawValue
+        findMenu.addItem(findNextItem)
+
+        let findPreviousItem = NSMenuItem(title: "Find Previous", action: #selector(NSResponder.performTextFinderAction(_:)), keyEquivalent: "G")
+        findPreviousItem.tag = NSTextFinder.Action.previousMatch.rawValue
+        findMenu.addItem(findPreviousItem)
+
+        let useSelectionItem = NSMenuItem(title: "Use Selection for Find", action: #selector(NSResponder.performTextFinderAction(_:)), keyEquivalent: "e")
+        useSelectionItem.tag = NSTextFinder.Action.setSearchString.rawValue
+        findMenu.addItem(useSelectionItem)
+
+        findMenu.addItem(withTitle: "Jump to Selection", action: #selector(NSTextView.centerSelectionInVisibleArea(_:)), keyEquivalent: "j")
+        let findMenuItem = NSMenuItem(title: "Find", action: nil, keyEquivalent: "")
+        findMenuItem.submenu = findMenu
+        editMenu.addItem(findMenuItem)
+
         editMenuItem.submenu = editMenu
         mainMenu.addItem(editMenuItem)
 

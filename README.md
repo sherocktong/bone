@@ -8,7 +8,7 @@ A lightweight macOS note companion app inspired by [Tot](https://tot.rocks). It 
 - **System tray icon** — Always accessible from the menu bar
 - **7 color-coded buffers** — Switch instantly via dots or ⌘1–⌘7
 - **Automatic saving** — Every keystroke is debounced and persisted to `~/Library/Application Support/bone/`
-- **Vim-like editing** — Normal, Insert, and Visual modes with essential commands
+- **Find & Replace** — Native find bar with ⌘F, match highlighting, and replace
 - **Close-to-hide** — Clicking the close button hides the window; the app keeps running in the tray
 
 ## Vim Commands
@@ -89,13 +89,13 @@ bone/
 
 ## Data Storage
 
-Buffers are saved as JSON to:
+Buffers are saved as 7 individual JSON files to:
 
 ```
-~/Library/Application Support/bone/buffers.json
+~/Library/Application Support/bone/buffers/
 ```
 
-The file is written atomically (temp file + move) to prevent corruption.
+Each file is written atomically (temp file + move) to prevent corruption.
 
 ## License
 
