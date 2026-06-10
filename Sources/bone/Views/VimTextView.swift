@@ -13,6 +13,7 @@ struct PlainTextView: NSViewRepresentable {
         scrollView.autoresizingMask = [.width, .height]
 
         textView.isRichText = false
+        textView.allowsUndo = true
         textView.font = NSFont.systemFont(ofSize: 14)
         textView.textContainerInset = NSSize(width: 12, height: 12)
         textView.autoresizingMask = [.width, .height]
@@ -64,4 +65,14 @@ class PlainTextViewSubclass: NSTextView {
     }
 
     override var acceptsFirstResponder: Bool { true }
+
+    override func validateUserInterfaceItem(_ item: NSValidatedUserInterfaceItem) -> Bool {
+        if item.action == Selector(("undo:")) {
+            return undoManager?.canUndo ?? false
+        }
+        if item.action == Selector(("redo:")) {
+            return undoManager?.canRedo ?? false
+        }
+        return super.validateUserInterfaceItem(item)
+    }
 }
